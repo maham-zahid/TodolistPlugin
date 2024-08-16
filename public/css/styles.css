@@ -1,0 +1,240 @@
+:root {
+  --primary-color: #4ea685;
+  --secondary-color: #57b894;
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #efefef;
+  --gray-2: #757575;
+  --spacing-small: 0.5rem;
+  --spacing-medium: 1rem;
+  --spacing-large: 2rem;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: var(--gray);
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  padding: var(--spacing-large);
+  background-color: var(--white);
+  border-radius: 10px;
+  -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper {
+  width: 100%;
+}
+
+.form-wrapper__heading {
+  text-align: center;
+  margin-bottom: var(--spacing-large);
+}
+
+.form {
+  display: grid;
+  gap: var(--spacing-medium);
+}
+.form__group {
+  display: grid;
+  gap: var(--spacing-small);
+}
+.form__group__label {
+  font-weight: 500;
+}
+.form__group input {
+  padding: 0.75rem;
+  border: 1px solid var(--gray-2);
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem;
+}
+.form__group input:focus {
+  border-color: var(--primary-color);
+}
+.form__forgot-password {
+  text-align: right;
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.form__forgot-password:hover {
+  text-decoration: underline;
+}
+.form__button {
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+.form__button:hover {
+  background-color: var(--secondary-color);
+}
+.form p {
+  font-size: 0.875rem;
+}
+.form p a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.form p a:hover {
+  text-decoration: underline;
+}
+
+.container1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  padding: var(--spacing-large);
+  background-color: var(--white);
+  border-radius: 10px;
+  -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.welcome {
+  text-align: center;
+  margin-bottom: var(--spacing-large);
+  color: #4ea685;
+  width: 100%;
+}
+
+.message {
+  text-align: center;
+  margin-bottom: var(--spacing-medium);
+}
+
+.form__error {
+  color: rgb(255, 0, 0);
+  font-size: 15px;
+}
+
+.form__text {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.logout__button {
+  padding: 0.75rem 5.5rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+.logout__button:hover {
+  background-color: var(--secondary-color) !important;
+}
+
+.todo-list-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.todo-list-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+#todo-form {
+  margin-bottom: 20px;
+}
+
+#todo-item {
+  width: calc(100% - 120px);
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#todo-form button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4ea685;
+  color: #fff;
+  cursor: pointer;
+}
+
+#todo-form button:hover {
+  background-color: #57b894;
+}
+
+#todo-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.todo-item__checkbox {
+  margin-right: 10px;
+}
+
+.todo-item__text {
+  flex: 1;
+}
+
+.todo-item__status {
+  margin-right: 10px;
+}
+
+
