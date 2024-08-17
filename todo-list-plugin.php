@@ -20,42 +20,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Include required files
-include(plugin_dir_path(__FILE__) . 'public/class-todo-list-plugin-public.php');
+// Include necessary class files
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-todo-list-plugin.php';
 
-
-
-// Initialize the plugin
-function todo_list_plugin_init() {
-    $plugin = new Todo_List();
-    $plugin->init(); // Ensure Todo_List class handles the functionality
+// Initialize the core functionality
+function run_todolist_plugin() {
+    $plugin = new Todolist_Plugin();
+    $plugin->run();
 }
-add_action('plugins_loaded', 'todo_list_plugin_init');
-
-// Handle AJAX request to check if user exists
-add_action('wp_ajax_check_user_exists', 'todo_list_check_user_exists');
-add_action('wp_ajax_nopriv_check_user_exists', 'todo_list_check_user_exists');
-
-function todo_list_check_user_exists() {
-    check_ajax_referer('custom-auth-nonce', 'nonce');
-
-    if (!isset($_POST['email'])) {
-        wp_send_json_error(array('message' => 'Email is required'));
-    }
-
-    $email = sanitize_email($_POST['email']);
-    $user = get_user_by('email', $email);
-
-    wp_send_json_success(array('exists' => $user ? true : false));
-}
-
-// Main Plugin Class
-class Todo_List_Plugin {
-    public function __construct() {
-        $this->public = new Todo_List();
-        add_action('init', array($this->public, 'init'));
-    }
-}
-
-// Instantiate the main plugin class
-new Todo_List_Plugin();
+run_todolist_plugin();

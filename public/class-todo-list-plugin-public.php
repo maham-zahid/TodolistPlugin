@@ -3,28 +3,16 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+/**
+ * Public site functionality of plugin
+ */
 
 class Todo_List {
+    private $version = '1.0.0';
 
-    // Constructor
-    public function __construct() {
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
-    }
+    public function __construct()
+    {
 
-    // Initialize the plugin
-    public function init() {
-        add_shortcode('registration_form', array($this, 'display_registration_form'));
-        add_shortcode('login_form', array($this, 'display_login_form'));
-        add_action('wp_ajax_register_user', array($this, 'register_user'));
-        add_action('wp_ajax_nopriv_register_user', array($this, 'register_user'));
-        add_action('wp_ajax_login_user', array($this, 'login_user'));
-        add_action('wp_ajax_nopriv_login_user', array($this, 'login_user'));
-        add_action('wp_ajax_check_user_exists', array($this, 'check_user_exists'));
-        add_action('wp_ajax_nopriv_check_user_exists', array($this, 'check_user_exists'));
-        add_shortcode('todo_list', array($this, 'render_todo_list'));
-        add_action('wp_ajax_add_todo_task', array($this, 'handle_add_todo_task'));
-        add_action('wp_ajax_fetch_todo_tasks', array($this, 'handle_fetch_todo_tasks'));
-        add_action('wp_ajax_update_todo_task', [$this, 'handle_update_todo_task']);
     }
 
     // Enqueue styles and scripts
@@ -99,7 +87,7 @@ class Todo_List {
     }
 
     
-    // Handle user registration via AJAX
+ // Handle user registration via AJAX
 public function register_user() {
     check_ajax_referer('custom-auth-nonce', 'nonce');
 
@@ -147,7 +135,7 @@ public function login_user() {
     $user = wp_authenticate($email, $password);
 
     if (is_wp_error($user)) {
-        wp_send_json_error(array('message' => 'Incorrect password'));
+        wp_send_json_error(array('message' => 'Incorrect email and password'));
     } else {
         wp_set_current_user($user->ID);
         wp_set_auth_cookie($user->ID);
