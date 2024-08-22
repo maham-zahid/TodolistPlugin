@@ -159,6 +159,7 @@ public function login_user() {
         ob_start();
         ?>
         <div class="todo-list-container">
+        <div id="message" class="message"></div>
             <h2>My To-Do List</h2>
             <form id="todo-form">
                 <input type="text" id="todo-item" placeholder="Add a new item" required>

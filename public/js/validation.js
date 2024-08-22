@@ -180,10 +180,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Refresh the task list after adding a task
                 fetchTodoTasks();
+                displayMessage('success', data.data.message);
             } else {
-                alert(data.data.message);
+                displayMessage('error', data.data.message);
             }
         });
     });
@@ -210,12 +210,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Update the checkbox based on the status
                     let checkbox = event.target.closest('.todo-item').querySelector('.todo-item__checkbox');
                     checkbox.checked = (status === 'completed');
-                    alert(data.data.message);
+
+                    
+                    if (status === 'completed') {
+                        displayMessage('success', 'Great job! Task marked as completed.');
+                    } else {
+                        displayMessage('success', 'Task status updated successfully.');
+                    }
                 } else {
-                    alert(data.data.message);
+                    displayMessage('error', data.data.message);
                 }
             });
         }
@@ -262,9 +267,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     todoList.innerHTML = '<li>No tasks available.</li>';
                 }
             } else {
-                alert(data.data.message);
+                displayMessage('error', data.data.message);
             }
         });
+    }
+
+    // Display a message on the screen
+    function displayMessage(type, message) {
+        const messageDiv = document.getElementById('message');
+        messageDiv.className = 'message ' + type; 
+        messageDiv.textContent = message; 
+        messageDiv.style.display = 'block'; 
+
+        
+        setTimeout(function () {
+            messageDiv.style.display = 'none';
+        }, 1000);
     }
 
     // Fetch tasks when the page loads
