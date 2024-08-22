@@ -29,10 +29,15 @@ class Todo_List {
 
     // Display registration form
     public function display_registration_form() {
+        if (is_user_logged_in()) {
+            wp_redirect(home_url('/todo-list'));
+            exit;
+        }
         ob_start();
         ?>
         <div class="container">
             <div class="form-wrapper">
+            <div id="message" class="message"></div> 
                 <h2 class="form-wrapper__heading">Register User</h2>
                 <form class="form" id="registerForm" method="POST" onsubmit="return validateRegistrationForm()">
                     <div class="form__group">
@@ -61,10 +66,15 @@ class Todo_List {
 
     // Display login form
     public function display_login_form() {
+        if (is_user_logged_in()) {
+            wp_redirect(home_url('/todo-list'));  
+            exit;
+        }
         ob_start();
         ?>
         <div class="container">
             <div class="form-wrapper">
+            <div id="message" class="message"></div> 
                 <h2 class="form-wrapper__heading">Log in</h2>
                 <form class="form" id="loginForm" method="POST" onsubmit="return validateLoginForm()">
                     <div class="form__group">

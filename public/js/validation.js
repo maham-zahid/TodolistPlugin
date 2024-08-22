@@ -1,5 +1,20 @@
+// Display a message on the screen
+function displayMessage(type, message) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.className = 'message ' + type; 
+    messageDiv.textContent = message; 
+    messageDiv.style.display = 'block'; 
+
+    
+    setTimeout(function () {
+        messageDiv.style.display = 'none';
+    }, 1000);
+}
+
 // Validation and AJAX for Login and Registration Forms
-function validateLoginForm() {
+function validateLoginForm(event) {
+    if (event) event.preventDefault(); // Prevent default form submission
+
     clearErrors();
 
     const email = document.getElementById('email').value;
@@ -30,10 +45,12 @@ function validateLoginForm() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    alert(response.data.message);
-                    window.location.href = 'http://todolistplugin.local/todo-list';
+                    displayMessage('success', response.data.message);
+                    setTimeout(function () {
+                        window.location.href = 'http://todolistplugin.local/todo-list';
+                    }, 1000); 
                 } else {
-                    alert(response.data.message);
+                    displayMessage('error', response.data.message);
                 }
             }
         };
@@ -44,6 +61,8 @@ function validateLoginForm() {
 }
 
 function validateRegistrationForm(event) {
+    if (event) event.preventDefault(); // Prevent default form submission
+
     clearErrors();
 
     const email = document.getElementById('email').value;
@@ -75,7 +94,7 @@ function validateRegistrationForm(event) {
     if (isValid) {
         checkUserExists(email, function(emailExists) {
             if (emailExists) {
-                alert('User already exists.');
+                displayMessage('error', 'User already exists.');
             } else {
                 const xhr = new XMLHttpRequest();
                 xhr.open('POST', myPluginData.ajax_url, true);
@@ -84,11 +103,12 @@ function validateRegistrationForm(event) {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         const response = JSON.parse(xhr.responseText);
                         if (response.success) {
-                            alert('Registration successful!');
-                            window.location.href = 'http://todolistplugin.local/login-page';
+                            displayMessage('success', 'Registration successful!');
+                            setTimeout(function () {
+                                window.location.href = 'http://todolistplugin.local/login-page';
+                            }, 1000); 
                         } else {
-                            alert(response.data.message);
-                            window.location.href = 'http://todolistplugin.local/login-page';
+                            displayMessage('error', response.data.message);
                         }
                     }
                 };
@@ -136,6 +156,7 @@ function clearErrors() {
     const errors = document.querySelectorAll('.form__error');
     errors.forEach(error => error.textContent = '');
 }
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // Handle add task form submission
