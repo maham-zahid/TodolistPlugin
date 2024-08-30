@@ -1,6 +1,5 @@
 # TodolistPlugin
 
-# To-Do List Plugin
 
 A versatile WordPress plugin designed to help users manage personal tasks and to-do lists, featuring user registration and login functionalities.
 
@@ -20,7 +19,8 @@ This plugin adheres to standard WordPress coding practices to ensure clarity, ma
 
 ## Video Tutorial
 
-Watch the Video Tutorial to get a comprehensive overview of the plugin’s features and functionality.
+Watch the Video Tutorial to get a comprehensive overview of the plugin’s features and functionality.     
+
 [Video of Module 3 (Todo-list)](https://drive.google.com/file/d/1iWrswROpT_wXYXU1kAbNDV6F9A7forut/view?usp=drive_link)
 
 [video of Module 6(Rest API)](https://drive.google.com/file/d/1OiDG5_woc0pyEn9LEXFY1i5xV1UMZx-n/view?usp=sharing)
