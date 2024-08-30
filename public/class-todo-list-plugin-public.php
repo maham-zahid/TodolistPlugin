@@ -387,10 +387,16 @@ public function get_task_id_by_parameters($request) {
  * Register REST API endpoint for checking task status.
  */
 public function register_check_task_status_route() {
-    register_rest_route('todolist/v1', '/tasks/check_status/(?P<task_id>[a-zA-Z0-9_-]+)/(?P<status>[a-zA-Z0-9_-]+)', array(
+    register_rest_route('todolist/v1', '/tasks/check_status/(?P<user_id>\d+)/(?P<task_id>[a-zA-Z0-9_-]+)/(?P<status>[a-zA-Z0-9_-]+)', array(
         'methods'  => 'GET',
         'callback' => array($this, 'check_task_status'),
         'args' => array(
+            'user_id' => array(
+                'required' => true,
+                'validate_callback' => function ($param, $request, $key) {
+                    return is_numeric($param);
+                }
+            ),
             'task_id' => array(
                 'required' => true,
                 'validate_callback' => function ($param, $request, $key) {
@@ -410,26 +416,29 @@ public function register_check_task_status_route() {
 
 /**
  * Callback function for checking if the task status matches the provided status.
- * Expects 'task_id' and 'status' as URL parameters.
+ * Expects 'user_id', 'task_id', and 'status' as URL parameters.
  * Returns true if the status matches, false otherwise.
  */
 public function check_task_status($request) {
-   
+    // Retrieve parameters from the request
+    $user_id = intval($request->get_param('user_id')); // Convert to integer
     $task_id = sanitize_text_field($request->get_param('task_id'));
     $status_param = sanitize_text_field($request->get_param('status'));
 
-    if (empty($task_id) || empty($status_param)) {
+    // Validate input
+    if ($user_id <= 0 || empty($task_id) || empty($status_param)) {
         return new WP_Error('invalid_parameters', 'Missing or invalid parameters.', array('status' => 400));
     }
 
-    $user_id = 1; 
-
+    // Fetch tasks from usermeta
     $user_tasks = get_user_meta($user_id, 'todo_list', true);
+
+    // Ensure tasks is an array
     if (!is_array($user_tasks)) {
         return new WP_Error('no_tasks', 'No tasks found for this user.', array('status' => 404));
     }
 
-  
+    // Check if the status matches the task ID
     foreach ($user_tasks as $task) {
         if ($task['id'] === $task_id) {
             if ($task['status'] === $status_param) {
@@ -440,6 +449,7 @@ public function check_task_status($request) {
         }
     }
 
+    // Return false if the task ID is not found
     return new WP_REST_Response(false, 404);
 }
 
