@@ -288,5 +288,160 @@ public function login_user() {
         wp_send_json_success(['message' => 'Task updated successfully.']);
     }
     
+    /**
+     * REST API endpoint for user task
+     */
+    public function fetch_user_tasks_api_routes() {
+        register_rest_route('todolist/v1', '/tasks/(?P<user_id>\d+)', array(
+            'methods' => 'GET',
+            'callback' => array($this, 'get_user_tasks'),
+        ));
+    }
+
+    /**
+     * Callback function for retrieving user tasks.
+     * Should take user ID as a parameter and respond with a list of his/her to-do items.
+     * The response should be in JSON format.
+     */
+    public function get_user_tasks($data) {
+        global $wpdb;
     
+        $user_id = intval($data['user_id']);
+    
+        if ($user_id <= 0) {
+            return new WP_Error('invalid_user_id', 'Invalid user ID provided.', array('status' => 400));
+        }
+    
+        $tasks = get_user_meta($user_id, 'todo_list', true);
+    
+        if (!is_array($tasks)) {
+            $tasks = array();
+        }
+    
+        return new WP_REST_Response($tasks, 200);
+    }
+
+
+    /**
+ * Register REST API endpoint for retrieving task IDs by user ID, task item, and status.
+ */
+public function register_get_task_id_route() {
+    register_rest_route('todolist/v1', '/tasks/(?P<user_id>\d+)/(?P<task>[^/]+)/(?P<status>[^/]+)', array(
+        'methods'             => 'GET',
+        'callback'            => array($this, 'get_task_id_by_parameters'),
+        'args'                => array(
+            'user_id' => array(
+                'required'          => true,
+                'validate_callback' => function($param, $request, $key) {
+                    return is_numeric($param);
+                }
+            ),
+            'task'    => array(
+                'required' => true,
+            ),
+            'status'  => array(
+                'required' => true,
+            ),
+        ),
+    ));
 }
+
+
+public function get_task_id_by_parameters($request) {
+ 
+    $user_id = intval($request->get_param('user_id'));
+    $task_param = sanitize_text_field(urldecode($request->get_param('task')));
+    $status_param = sanitize_text_field(urldecode($request->get_param('status')));
+
+    
+    error_log("Received parameters - User ID: $user_id, Task: $task_param, Status: $status_param");
+
+  
+    if ($user_id <= 0 || empty($task_param) || empty($status_param)) {
+        return new WP_Error('invalid_parameters', 'Missing or invalid parameters.', array('status' => 400));
+    }
+
+    $user_tasks = get_user_meta($user_id, 'todo_list', true);
+
+    error_log("Fetched tasks: " . print_r($user_tasks, true));
+
+ 
+    if (!is_array($user_tasks)) {
+        return new WP_Error('no_tasks', 'No tasks found for this user.', array('status' => 404));
+    }
+
+    foreach ($user_tasks as $task) {
+        if (isset($task['id'], $task['task'], $task['status']) &&
+            $task['task'] === $task_param && 
+            $task['status'] === $status_param) {
+           
+            return new WP_REST_Response(['task_id' => $task['id']], 200);
+        }
+    }
+
+    return new WP_Error('task_not_found', 'Task not found', array('status' => 404));
+}
+
+
+/**
+ * Register REST API endpoint for checking task status.
+ */
+public function register_check_task_status_route() {
+    register_rest_route('todolist/v1', '/tasks/check_status/(?P<task_id>[a-zA-Z0-9_-]+)/(?P<status>[a-zA-Z0-9_-]+)', array(
+        'methods'  => 'GET',
+        'callback' => array($this, 'check_task_status'),
+        'args' => array(
+            'task_id' => array(
+                'required' => true,
+                'validate_callback' => function ($param, $request, $key) {
+                    return is_string($param) && !empty($param);
+                }
+            ),
+            'status' => array(
+                'required' => true,
+                'validate_callback' => function ($param, $request, $key) {
+                    return is_string($param) && !empty($param);
+                }
+            ),
+        ),
+    ));
+}
+
+
+/**
+ * Callback function for checking if the task status matches the provided status.
+ * Expects 'task_id' and 'status' as URL parameters.
+ * Returns true if the status matches, false otherwise.
+ */
+public function check_task_status($request) {
+   
+    $task_id = sanitize_text_field($request->get_param('task_id'));
+    $status_param = sanitize_text_field($request->get_param('status'));
+
+    if (empty($task_id) || empty($status_param)) {
+        return new WP_Error('invalid_parameters', 'Missing or invalid parameters.', array('status' => 400));
+    }
+
+    $user_id = 1; 
+
+    $user_tasks = get_user_meta($user_id, 'todo_list', true);
+    if (!is_array($user_tasks)) {
+        return new WP_Error('no_tasks', 'No tasks found for this user.', array('status' => 404));
+    }
+
+  
+    foreach ($user_tasks as $task) {
+        if ($task['id'] === $task_id) {
+            if ($task['status'] === $status_param) {
+                return new WP_REST_Response(true, 200);
+            } else {
+                return new WP_REST_Response(false, 200);
+            }
+        }
+    }
+
+    return new WP_REST_Response(false, 404);
+}
+
+}
+
