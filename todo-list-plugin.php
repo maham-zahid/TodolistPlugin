@@ -23,6 +23,11 @@ if (!defined('ABSPATH')) {
 // Include necessary class files
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-todo-list-plugin.php';
 
+// Register the WP-CLI command.
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+    require_once plugin_dir_path( __FILE__ ) . 'includes/class-todolist-wp-cli-command.php';
+}
+
 // Initialize the core functionality
 function run_todolist_plugin() {
     $plugin = new Todolist_Plugin();
