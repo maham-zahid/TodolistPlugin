@@ -1,6 +1,6 @@
 # TodolistPlugin
 
-A versatile WordPress plugin designed to help users manage personal tasks and to-do lists, featuring user registration and login functionalities, REST API endpoints for task management, and WP CLI commands for efficient task handling.
+A versatile WordPress plugin designed to help users manage personal tasks and to-do lists, featuring user registration and login functionalities, REST API endpoints for task management, WP CLI commands for efficient task handling, and automated task reminders via cron jobs.
 
 ## Motivation
 
@@ -17,7 +17,6 @@ This plugin adheres to standard WordPress coding practices to ensure clarity, ma
 - **Version Control:** Managed under Git version control with clear commit messages and structured branching for a streamlined development process.
 
 ## Video Tutorial
-
 Watch the Video Tutorial to get a comprehensive overview of the plugin’s features and functionality.
 
 [Video  (Todo-list)](https://drive.google.com/file/d/1iWrswROpT_wXYXU1kAbNDV6F9A7forut/view)
@@ -25,6 +24,10 @@ Watch the Video Tutorial to get a comprehensive overview of the plugin’s featu
 [Video  (Rest API)](https://drive.google.com/file/d/1OiDG5_woc0pyEn9LEXFY1i5xV1UMZx-n/view)
 
 [Video  (WP CLI)](https://drive.google.com/file/d/1koGYLAr0wAgZv0kj6KMUEsEkcg4rzHQh/view?usp=sharing)
+
+### Screenshot
+
+[Module 8 ](https://drive.google.com/file/d/1Ptft1Nr4K4hu0KSkD9B9nZBV3_ExAluc/view?usp=sharing)
 
 
 ## Tech/Framework Used
@@ -72,17 +75,21 @@ The To-Do List Plugin integrates several technologies and frameworks to provide 
 - **Real-Time Updates:** Enables task operations without page reloads.
 - **Seamless User Experience:** Provides instant feedback and improved interaction.
 
-### REST API 
+### REST API
 
 - **Get User's To-Do List:** REST API endpoint that accepts a user ID as a parameter and responds with a list of the user's to-do items in JSON format.
 - **Add Task to User's To-Do List:** REST API endpoint that accepts a user ID, task item, and status, and adds the task to the user's to-do list. The response includes the task ID.
 - **Update Task Status:** REST API endpoint that accepts a task ID and status, updating the task status. The response indicates success with a boolean value.
 
-### WP CLI 
+### WP CLI
 
 - **Add To-Do Item:** WP CLI command to add a to-do item for a given user.
 - **Get To-Do Items:** WP CLI command to retrieve the to-do items of a given user.
 - **Change Task Status:** WP CLI command to change the status of a specific task ID for a user.
+
+### Cron Job for Task Reminders
+
+- **Automated Reminders:** A cron job is set up to send users an email with all their pending tasks every 24 hours. This ensures users receive timely reminders of their incomplete tasks.
 
 ## Installation
 
@@ -97,4 +104,4 @@ Contributions are welcome! Please submit issues or pull requests and adhere to t
 
 ## Contact
 
-For questions or feedback, please reach out to Maham Zahid at mahamzahhid333@gmail.com.
+For questions or feedback, please reach out to Maham Zahid at [mahamzahhid333@gmail.com](mailto:mahamzahhid333@gmail.com).
