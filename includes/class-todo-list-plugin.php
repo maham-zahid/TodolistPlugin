@@ -73,6 +73,9 @@ class Todolist_Plugin {
         // REST API endpoint for user status
         add_action('rest_api_init', array($plugin_public, 'register_check_task_status_route'));
 
+        // Hook to send pending tasks email
+        add_action( 'send_pending_tasks_email_event', array($plugin_public,'send_task_reminder_emails' ));
+
     }
 
     public function run()

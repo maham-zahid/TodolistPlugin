@@ -453,5 +453,51 @@ public function check_task_status($request) {
     return new WP_REST_Response(false, 404);
 }
 
+
+function send_task_reminder_emails() {
+    
+    $users = get_users();
+
+    foreach ($users as $user) {
+        $user_id = $user->ID;
+
+        $tasks = get_user_meta($user_id, 'todo_list', true);
+
+        error_log("Raw tasks data for user ID $user_id: " . print_r($tasks, true));
+
+        if ($tasks && is_array($tasks)) {
+           
+            $pending_tasks = array_filter($tasks, function ($task) {
+                return isset($task['status']) && $task['status'] === 'pending';
+            });
+
+            if (!empty($pending_tasks)) {
+                $task_list = '';
+                foreach ($pending_tasks as $task) {
+                    $task_list .= "- " . esc_html($task['task']) . "\n";
+                }
+
+                $subject = __('Pending Task Reminder', 'textdomain');
+                $message = sprintf(
+                    __("Hello %s,\n\nHere are your pending tasks:\n\n%s\n\nBest regards,\nYour Task Management Team", 'textdomain'),
+                    $user->display_name,
+                    $task_list
+                );
+
+                // Send the email
+                if (wp_mail($user->user_email, $subject, $message)) {
+                    error_log("Reminder email sent to {$user->user_email}.");
+                } else {
+                    error_log("Failed to send reminder email to {$user->user_email}.");
+                }
+            } else {
+                error_log("No pending tasks for user ID $user_id.");
+            }
+        } else {
+            error_log("No tasks found or invalid format for user ID $user_id. Tasks data: " . print_r($tasks, true));
+        }
+    }
+}
+
 }
 

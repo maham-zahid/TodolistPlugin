@@ -34,3 +34,24 @@ function run_todolist_plugin() {
     $plugin->run();
 }
 run_todolist_plugin();
+
+// Schedule the cron event on plugin activation
+function todolistplugin_activate() {
+    if ( ! wp_next_scheduled( 'send_pending_tasks_email_event' ) ) {
+        wp_schedule_event( time(), 'daily', 'send_pending_tasks_email_event' );
+    }
+}
+
+// Clear the cron event on plugin deactivation
+function todolistplugin_deactivate() {
+    $timestamp = wp_next_scheduled( 'send_pending_tasks_email_event' );
+    if ( $timestamp ) {
+        wp_unschedule_event( $timestamp, 'send_pending_tasks_email_event' );
+    }
+}
+
+// Hook into plugin activation and deactivation
+register_activation_hook( __FILE__, 'todolistplugin_activate' );
+register_deactivation_hook( __FILE__, 'todolistplugin_deactivate' );
+
+
