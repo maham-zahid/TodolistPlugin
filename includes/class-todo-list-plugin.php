@@ -64,14 +64,14 @@ class Todolist_Plugin {
         // Register AJAX actions for updating todo items
         add_action('wp_ajax_update_todo_task', [$plugin_public, 'handle_update_todo_task']);
 
-        // REST API endpoint for user task
+        // REST API endpoint for user tasks list
         add_action('rest_api_init', array($plugin_public, 'fetch_user_tasks_api_routes'));
 
-        // REST API endpoint for user id
-        add_action('rest_api_init', array($plugin_public, 'register_get_task_id_route'));
+        // REST API endpoint for adding task
+        add_action('rest_api_init', array($plugin_public, 'add_user_task_api_routes'));
         
-        // REST API endpoint for user status
-        add_action('rest_api_init', array($plugin_public, 'register_check_task_status_route'));
+        // REST API endpoint for updating task
+        add_action('rest_api_init', array($plugin_public, 'update_user_task_api_routes'));
 
         // Hook to send pending tasks email
         add_action( 'send_pending_tasks_email_event', array($plugin_public,'send_task_reminder_emails' ));
