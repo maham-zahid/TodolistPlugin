@@ -433,18 +433,15 @@ public function update_user_task($data) {
     $task_id = sanitize_text_field($data['task_id']);
     $status = sanitize_text_field($data['status']);
 
-    // Validate user ID
     if ($user_id <= 0) {
         return new WP_Error('invalid_user_id', 'Invalid user ID provided.', array('status' => 400));
     }
 
-    // Get the user's existing tasks
     $tasks = get_user_meta($user_id, 'todo_list', true);
     if (!is_array($tasks)) {
         return new WP_Error('no_tasks_found', 'No tasks found for the user.', array('status' => 404));
     }
 
-    // Find the task by ID and update its status
     $task_found = false;
     foreach ($tasks as &$task) {
         if ($task['id'] === $task_id) {
@@ -458,10 +455,8 @@ public function update_user_task($data) {
         return new WP_Error('task_not_found', 'Task not found.', array('status' => 404));
     }
 
-    // Update the user's to-do list with the modified task
     update_user_meta($user_id, 'todo_list', $tasks);
 
-    // Return true if the update was successful
     return new WP_REST_Response(array('success' => true), 200);
 }
 

@@ -1,6 +1,6 @@
 # TodolistPlugin
 
-A versatile WordPress plugin designed to help users manage personal tasks and to-do lists, featuring user registration and login functionalities, REST API endpoints for task management, WP CLI commands for efficient task handling, and automated task reminders via cron jobs.
+A versatile WordPress plugin designed to help users manage personal tasks and to-do lists, featuring user registration and login functionalities, REST API endpoints for task management with JWT authentication, WP CLI commands for efficient task handling, and automated task reminders via cron jobs.
 
 ## Motivation
 
@@ -21,14 +21,13 @@ Watch the Video Tutorial to get a comprehensive overview of the plugin’s featu
 
 [Video  (Todo-list)](https://drive.google.com/file/d/1iWrswROpT_wXYXU1kAbNDV6F9A7forut/view)
 
-[Video  (Rest API)](https://drive.google.com/file/d/1OiDG5_woc0pyEn9LEXFY1i5xV1UMZx-n/view)
+[Video  (Rest API)](https://drive.google.com/file/d/1qEcQaaGiye-pSIXrb-NtWKAIk-OHmB_C/view?usp=sharing)
 
 [Video  (WP CLI)](https://drive.google.com/file/d/1koGYLAr0wAgZv0kj6KMUEsEkcg4rzHQh/view?usp=sharing)
 
 ### Screenshot
 
 [Module 8 ](https://drive.google.com/file/d/1Ptft1Nr4K4hu0KSkD9B9nZBV3_ExAluc/view?usp=sharing)
-
 
 ## Tech/Framework Used
 
@@ -39,6 +38,7 @@ The To-Do List Plugin integrates several technologies and frameworks to provide 
 - **JavaScript:** Enhances user interactions and dynamic content with jQuery and JavaScript.
 - **AJAX:** Facilitates real-time content updates without full page reloads.
 - **REST API:** Enables front-end and back-end communication for data retrieval and updates.
+- **JWT Authentication:** Secures REST API endpoints with JWT authentication for authorized access.
 - **WP CLI:** Provides command-line tools for managing tasks within the plugin.
 - **HTML5:** Structures the user interface with semantic and accessible HTML.
 - **CSS3:** Styles the front-end interface using modern CSS techniques.
@@ -78,8 +78,8 @@ The To-Do List Plugin integrates several technologies and frameworks to provide 
 ### REST API
 
 - **Get User's To-Do List:** REST API endpoint that accepts a user ID as a parameter and responds with a list of the user's to-do items in JSON format.
-- **Add Task to User's To-Do List:** REST API endpoint that accepts a user ID, task item, and status, and adds the task to the user's to-do list. The response includes the task ID.
-- **Update Task Status:** REST API endpoint that accepts a task ID and status, updating the task status. The response indicates success with a boolean value.
+- **Add Task to User's To-Do List:** REST API endpoint that accepts a task item and status, and adds the task to the user's to-do list with JWT authentication. The response includes the task ID.
+- **Update Task Status:** REST API endpoint that accepts a task ID and status, updating the task status with JWT authentication. The response indicates success with a boolean value.
 
 ### WP CLI
 
@@ -105,3 +105,4 @@ Contributions are welcome! Please submit issues or pull requests and adhere to t
 ## Contact
 
 For questions or feedback, please reach out to Maham Zahid at [mahamzahhid333@gmail.com](mailto:mahamzahhid333@gmail.com).
+
